@@ -1,14 +1,12 @@
 package org.example.repositories;
 
 import org.example.exception.EntityNotFoundException;
-import org.example.models.entities.Book;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEntity>{
-
 
     private final String tableName;
 
@@ -24,7 +22,8 @@ public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEnt
     @Override
     public TEntity getOne(Integer id) {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
+
             PreparedStatement psmt = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE " + columnIdName + " = ?");
 
             psmt.setInt(1,id);
@@ -45,8 +44,7 @@ public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEnt
     @Override
     public List<TEntity> getMany() {
         try {
-
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             Statement smt = conn.createStatement();
             ResultSet rs = smt.executeQuery("SELECT * FROM " + tableName);
 
@@ -75,7 +73,7 @@ public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEnt
     public boolean delete(Integer id) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE " + columnIdName + " = ?");
             psmt.setInt(1,id);
 
@@ -86,5 +84,14 @@ public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEnt
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected Connection openConnection(){
+        try {
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

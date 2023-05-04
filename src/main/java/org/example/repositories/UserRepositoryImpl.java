@@ -30,7 +30,7 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User> implements User
     public User add(User user) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("INSERT INTO SECURITY_USER(USERNAME,EMAIL,PWD) " +
                                                                "VALUES(?,?,?) RETURNING *");
             psmt.setString(1, user.getUsername());
@@ -57,7 +57,7 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User> implements User
     public boolean update(Integer id, User user) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("UPDATE SECURITY_USER " +
                                                                "SET USERNAME = ?," +
                                                                    "EMAIL = ?, " +
@@ -83,7 +83,7 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User> implements User
     public User findByLogin(String login) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("SELECT * FROM SECURITY_USER WHERE USERNAME = ? OR EMAIL = ?");
             psmt.setString(1,login);
             psmt.setString(2,login);

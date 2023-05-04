@@ -4,8 +4,6 @@ import org.example.exception.EntityException;
 import org.example.models.entities.Book;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements BookRepository {
 
@@ -32,7 +30,7 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
     public Book add(Book book) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("INSERT INTO BOOK (TITLE,DESCRIPTION) VALUES (?,?) RETURNING *");
             psmt.setString(1, book.getTitle());
             psmt.setString(2, book.getDescription());
@@ -52,7 +50,7 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
     public boolean update(Integer id, Book book) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("UPDATE BOOK SET TITLE = ?, DESCRIPTION = ? WHERE MOVIE_ID = ?");
             psmt.setString(1,book.getTitle());
             psmt.setString(2, book.getDescription());

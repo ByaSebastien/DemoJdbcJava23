@@ -1,7 +1,6 @@
 package org.example.repositories;
 
 import org.example.exception.EntityException;
-import org.example.models.entities.Book;
 import org.example.models.entities.Movie;
 
 import java.sql.*;
@@ -30,7 +29,7 @@ public class MovieRepositoryImpl extends BaseRepositoryImpl<Movie> implements Mo
     public Movie add(Movie movie) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("INSERT INTO MOVIE (TITLE,DESCRIPTION) VALUES (?,?) RETURNING *");
             psmt.setString(1, movie.getTitle());
             psmt.setString(2, movie.getDescription());
@@ -50,7 +49,7 @@ public class MovieRepositoryImpl extends BaseRepositoryImpl<Movie> implements Mo
     public boolean update(Integer id, Movie movie) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/DemoJdbc", "postgres", "postgres");
+            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("UPDATE MOVIE SET TITLE = ?, DESCRIPTION = ? WHERE MOVIE_ID = ?");
             psmt.setString(1,movie.getTitle());
             psmt.setString(2, movie.getDescription());

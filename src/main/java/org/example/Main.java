@@ -27,11 +27,11 @@ public class Main {
 //        System.out.println(bookService.delete(4));
 //        System.out.println(bookService.delete(5));
 
-        User user = new User("BeauVivier","prendsTonVerre@soulard.com","hick!");
-        System.out.println(userService.login("prendsTonVerre@soulard.com","hick!"));
+        User user = new User("BeauVivier","prendsTonVerre@soulard.de","hick!");
+        System.out.println(userService.register(user));
+        System.out.println(userService.login("prendsTonVerre@soulard.be","hick!"));
     }
 }
-
 
 
 
