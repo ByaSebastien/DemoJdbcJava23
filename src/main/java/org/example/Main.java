@@ -6,6 +6,7 @@ import org.example.models.entities.Movie;
 import org.example.models.entities.User;
 import org.example.models.forms.BookForm;
 import org.example.models.forms.MovieForm;
+import org.example.models.forms.UserForm;
 import org.example.services.BookServiceImpl;
 import org.example.services.MovieServiceImpl;
 import org.example.services.UserServiceImpl;
@@ -47,8 +48,8 @@ public class Main {
 
 //        System.out.println(movieService.delete(6));
 
-//        User user = new User("BeauVivier","prendsTonVerre@soulard.de","hick!");
-//        System.out.println(userService.register(user));
+        UserForm user = new UserForm("BeauVivier","prendsTonVerre@soulard.de","hick!");
+        System.out.println(userService.register(user.toEntity()));
 //        System.out.println(userService.login("prendsTonVerre@soulard.be","hick!"));
 
 
