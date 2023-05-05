@@ -8,9 +8,13 @@ public class Book {
     private Integer id;
     private String title;
     private String description;
+    private Integer authorId;
 
-    public Book(String title, String description) {
+    private Author author;
+
+    public Book(String title, String description,Integer authorId) {
         this.title = title;
         this.description = description;
+        this.authorId = authorId;
     }
 }

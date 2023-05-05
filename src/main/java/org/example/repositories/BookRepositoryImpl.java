@@ -20,6 +20,7 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
                     .id(rs.getInt("BOOK_ID"))
                     .title(rs.getString("TITLE"))
                     .description(rs.getString("DESCRIPTION"))
+                    .authorId(rs.getInt("AUTHOR_ID"))
                     .build();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -27,18 +28,17 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
     }
 
     @Override
-    public Book add(Book book) {
+    public Book add(Book book,Connection conn){
 
-        try {
-            Connection conn = openConnection();
-            PreparedStatement psmt = conn.prepareStatement("INSERT INTO BOOK (TITLE,DESCRIPTION) VALUES (?,?) RETURNING *");
+        try{
+            PreparedStatement psmt = conn.prepareStatement("INSERT INTO BOOK (TITLE,DESCRIPTION,AUTHOR_ID) VALUES (?,?,?) RETURNING *");
             psmt.setString(1, book.getTitle());
             psmt.setString(2, book.getDescription());
+            psmt.setInt(3,book.getAuthorId());
             ResultSet rs = psmt.executeQuery();
             if(!rs.next())
                 throw new EntityException("Failed");
 
-            conn.close();
             return buildEntity(rs);
 
         } catch (SQLException e) {
@@ -47,14 +47,21 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
     }
 
     @Override
+    public Book add(Book book) {
+
+        return add(book,openConnection());
+    }
+
+    @Override
     public boolean update(Integer id, Book book) {
 
         try {
             Connection conn = openConnection();
-            PreparedStatement psmt = conn.prepareStatement("UPDATE BOOK SET TITLE = ?, DESCRIPTION = ? WHERE BOOK_ID = ?");
+            PreparedStatement psmt = conn.prepareStatement("UPDATE BOOK SET TITLE = ?, DESCRIPTION = ?, AUTHOR_ID = ? WHERE BOOK_ID = ?");
             psmt.setString(1,book.getTitle());
             psmt.setString(2, book.getDescription());
-            psmt.setInt(3,id);
+            psmt.setInt(3,book.getAuthorId());
+            psmt.setInt(4,id);
 
             int nbRows = psmt.executeUpdate();
 

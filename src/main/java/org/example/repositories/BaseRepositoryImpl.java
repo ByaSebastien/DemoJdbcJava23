@@ -65,6 +65,9 @@ public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEnt
     }
 
     @Override
+    public abstract TEntity add(TEntity entity,Connection conn);
+
+    @Override
     public abstract TEntity add(TEntity entity);
 
     @Override

@@ -27,12 +27,11 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User> implements User
     }
 
     @Override
-    public User add(User user) {
+    public User add(User user, Connection conn){
 
         try {
-            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("INSERT INTO SECURITY_USER(USERNAME,EMAIL,PWD) " +
-                                                               "VALUES(?,?,?) RETURNING *");
+                    "VALUES(?,?,?) RETURNING *");
             psmt.setString(1, user.getUsername());
             psmt.setString(2, user.getEmail());
             psmt.setString(3, user.getPassword());
@@ -43,14 +42,18 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<User> implements User
                 throw new EntityNotFoundException();
 
             User result = buildEntity(rs);
-            conn.close();
 
             return result;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    @Override
+    public User add(User user) {
+
+        return add(user,openConnection());
     }
 
     @Override

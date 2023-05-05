@@ -26,10 +26,9 @@ public class MovieRepositoryImpl extends BaseRepositoryImpl<Movie> implements Mo
     }
 
     @Override
-    public Movie add(Movie movie) {
+    public Movie add(Movie movie,Connection conn){
 
         try {
-            Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("INSERT INTO MOVIE (TITLE,DESCRIPTION) VALUES (?,?) RETURNING *");
             psmt.setString(1, movie.getTitle());
             psmt.setString(2, movie.getDescription());
@@ -37,12 +36,17 @@ public class MovieRepositoryImpl extends BaseRepositoryImpl<Movie> implements Mo
             if(!rs.next())
                 throw new EntityException("Failed");
 
-            conn.close();
             return buildEntity(rs);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Movie add(Movie movie) {
+
+        return add(movie,openConnection());
     }
 
     @Override
