@@ -12,6 +12,7 @@ public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEnt
 
     private final String columnIdName;
 
+
     public BaseRepositoryImpl(String tableName, String columnIdName) {
         this.tableName = tableName;
         this.columnIdName = columnIdName;
@@ -92,6 +93,5 @@ public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEnt
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

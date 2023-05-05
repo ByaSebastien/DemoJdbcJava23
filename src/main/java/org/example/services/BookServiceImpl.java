@@ -38,6 +38,14 @@ public class BookServiceImpl {
 
         return true;
     }
+
+    public boolean update(Integer id, Book book){
+
+        if(!bookRepository.update(id,book))
+            throw new EntityNotFoundException();
+
+        return true;
+    }
 }
 
 

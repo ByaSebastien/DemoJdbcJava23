@@ -51,7 +51,7 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
 
         try {
             Connection conn = openConnection();
-            PreparedStatement psmt = conn.prepareStatement("UPDATE BOOK SET TITLE = ?, DESCRIPTION = ? WHERE MOVIE_ID = ?");
+            PreparedStatement psmt = conn.prepareStatement("UPDATE BOOK SET TITLE = ?, DESCRIPTION = ? WHERE BOOK_ID = ?");
             psmt.setString(1,book.getTitle());
             psmt.setString(2, book.getDescription());
             psmt.setInt(3,id);
