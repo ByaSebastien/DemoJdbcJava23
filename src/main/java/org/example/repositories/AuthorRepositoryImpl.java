@@ -85,9 +85,12 @@ public class AuthorRepositoryImpl extends BaseRepositoryImpl<Author> implements 
         try{
             Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("SELECT * FROM AUTHOR " +
-                                                               "WHERE FIRSTNAME LIKE %?% OR " +
-                                                                     "LASTNAME LIKE %?% OR " +
-                                                                     "PSEUDO LIKE %?%");
+                                                               "WHERE FIRSTNAME LIKE ? OR " +
+                                                                     "LASTNAME LIKE ? OR " +
+                                                                     "PSEUDO LIKE ?");
+//            '%'keyword'%'
+//            '%keyword%'
+            keyword = "%" + keyword + "%" ;
             psmt.setString(1,keyword);
             psmt.setString(2,keyword);
             psmt.setString(3,keyword);
