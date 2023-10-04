@@ -2,14 +2,14 @@ package org.example;
 
 
 import org.example.models.entities.Author;
-import org.example.models.entities.Book;
-import org.example.models.forms.BookForm;
-import org.example.repositories.AuthorRepositoryImpl;
+import org.example.repositories.impl.AuthorRepositoryImpl;
 import org.example.services.BookServiceImpl;
 import org.example.services.MovieServiceImpl;
 import org.example.services.UserServiceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -54,8 +54,6 @@ public class Main {
         AuthorRepositoryImpl authorRepository = new AuthorRepositoryImpl();
 
         List<Author> authors = authorRepository.getByKeyword("oto");
-
-        authors.forEach(System.out::println);
     }
 }
 

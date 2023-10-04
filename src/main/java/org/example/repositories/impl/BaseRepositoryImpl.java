@@ -1,12 +1,13 @@
-package org.example.repositories;
+package org.example.repositories.impl;
 
 import org.example.exception.EntityNotFoundException;
+import org.example.repositories.BaseRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEntity>{
+public abstract class BaseRepositoryImpl<TEntity> implements BaseRepository<TEntity> {
 
     private final String tableName;
 

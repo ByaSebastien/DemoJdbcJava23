@@ -3,7 +3,7 @@ package org.example.services;
 import org.example.exception.EntityNotFoundException;
 import org.example.models.entities.User;
 import org.example.repositories.UserRepository;
-import org.example.repositories.UserRepositoryImpl;
+import org.example.repositories.impl.UserRepositoryImpl;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class UserServiceImpl {

@@ -1,7 +1,8 @@
-package org.example.repositories;
+package org.example.repositories.impl;
 
 import org.example.exception.EntityNotFoundException;
 import org.example.models.entities.User;
+import org.example.repositories.UserRepository;
 
 import java.sql.*;
 

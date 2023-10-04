@@ -1,12 +1,9 @@
 package org.example.services;
 
 import org.example.exception.EntityNotFoundException;
-import org.example.models.entities.Book;
 import org.example.models.entities.Movie;
-import org.example.repositories.BookRepository;
-import org.example.repositories.BookRepositoryImpl;
 import org.example.repositories.MovieRepository;
-import org.example.repositories.MovieRepositoryImpl;
+import org.example.repositories.impl.MovieRepositoryImpl;
 
 import java.util.List;
 

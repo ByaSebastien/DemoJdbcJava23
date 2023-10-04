@@ -1,11 +1,12 @@
-package org.example.repositories;
+package org.example.repositories.impl;
 
 import org.example.exception.EntityException;
 import org.example.models.entities.Movie;
+import org.example.repositories.MovieRepository;
 
 import java.sql.*;
 
-public class MovieRepositoryImpl extends BaseRepositoryImpl<Movie> implements MovieRepository{
+public class MovieRepositoryImpl extends BaseRepositoryImpl<Movie> implements MovieRepository {
 
     public MovieRepositoryImpl() {
         super("MOVIE", "MOVIE_ID");

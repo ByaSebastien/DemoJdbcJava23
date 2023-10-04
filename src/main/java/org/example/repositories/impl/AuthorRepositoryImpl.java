@@ -1,7 +1,8 @@
-package org.example.repositories;
+package org.example.repositories.impl;
 
 import org.example.exception.EntityException;
 import org.example.models.entities.Author;
+import org.example.repositories.AuthorRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

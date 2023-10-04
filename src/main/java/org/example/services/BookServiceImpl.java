@@ -3,9 +3,9 @@ package org.example.services;
 import org.example.exception.EntityNotFoundException;
 import org.example.models.entities.Book;
 import org.example.repositories.AuthorRepository;
-import org.example.repositories.AuthorRepositoryImpl;
+import org.example.repositories.impl.AuthorRepositoryImpl;
 import org.example.repositories.BookRepository;
-import org.example.repositories.BookRepositoryImpl;
+import org.example.repositories.impl.BookRepositoryImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,9 +1,11 @@
-package org.example.repositories;
+package org.example.repositories.impl;
 
 import org.example.exception.EntityException;
 import org.example.models.entities.Book;
+import org.example.repositories.BookRepository;
 
 import java.sql.*;
+import java.util.List;
 
 public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements BookRepository {
 
@@ -13,7 +15,7 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
     }
 
     @Override
-    protected Book buildEntity(ResultSet rs){
+    protected Book buildEntity(ResultSet rs) {
 
         try {
             return Book.builder()
@@ -28,15 +30,15 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
     }
 
     @Override
-    public Book add(Book book,Connection conn){
+    public Book add(Book book, Connection conn) {
 
-        try{
+        try {
             PreparedStatement psmt = conn.prepareStatement("INSERT INTO BOOK (TITLE,DESCRIPTION,AUTHOR_ID) VALUES (?,?,?) RETURNING *");
             psmt.setString(1, book.getTitle());
             psmt.setString(2, book.getDescription());
-            psmt.setInt(3,book.getAuthorId());
+            psmt.setInt(3, book.getAuthorId());
             ResultSet rs = psmt.executeQuery();
-            if(!rs.next())
+            if (!rs.next())
                 throw new EntityException("Failed");
 
             return buildEntity(rs);
@@ -49,7 +51,27 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
     @Override
     public Book add(Book book) {
 
-        return add(book,openConnection());
+        return add(book, openConnection());
+    }
+
+    public void add(List<Book> books) {
+        try {
+            Connection conn = openConnection();
+            conn.setAutoCommit(false);
+            PreparedStatement psmt = conn.prepareStatement("INSERT INTO BOOK (TITLE,DESCRIPTION,AUTHOR_ID) VALUES (?,?,?)");
+            for (Book book : books) {
+
+                psmt.setString(1, book.getTitle());
+                psmt.setString(2, book.getDescription());
+                psmt.setInt(3, book.getAuthorId());
+                psmt.addBatch();
+            }
+            int[] results = psmt.executeBatch();
+            conn.rollback();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -58,10 +80,10 @@ public class BookRepositoryImpl extends BaseRepositoryImpl<Book> implements Book
         try {
             Connection conn = openConnection();
             PreparedStatement psmt = conn.prepareStatement("UPDATE BOOK SET TITLE = ?, DESCRIPTION = ?, AUTHOR_ID = ? WHERE BOOK_ID = ?");
-            psmt.setString(1,book.getTitle());
+            psmt.setString(1, book.getTitle());
             psmt.setString(2, book.getDescription());
-            psmt.setInt(3,book.getAuthorId());
-            psmt.setInt(4,id);
+            psmt.setInt(3, book.getAuthorId());
+            psmt.setInt(4, id);
 
             int nbRows = psmt.executeUpdate();
 
